@@ -2,6 +2,7 @@ let { Router } = require("express")
 let { expensemodel } = require("../models/expensemodel")
 let { Authorization } = require("../middlewares/Authorization")
 const { Expense_validator } = require("../middlewares/Expense_creation_validator")
+const { Authmodel } = require("../models/Authmodel")
 
 let expenserouter = Router()
 
@@ -81,11 +82,12 @@ expenserouter.get("/summary", Authorization, async (req, res) => {
 
     }
     else if (role === "admin") {
-        let allusersdata = []
+        let allusersdata = {}
         for (let i = 0; i < userid.length; i++) {
             let data = await expensemodel.find({ userid: userid[i] })
+            let {username}=await Authmodel.findOne({_id:userid[i]})
             let indivisualuser = expensefunc(data)
-            allusersdata.push(indivisualuser)
+            allusersdata[username]=indivisualuser
         }
         res.json(allusersdata)
 
