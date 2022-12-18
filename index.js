@@ -1,10 +1,14 @@
 let express=require("express")
 let {connection}=require("./Config/db")
-
+let {Rolerouter}=require("./Routes/Roleroutes")
 let app=express()
+app.use(express.json())
 
+app.get("/",(req,res)=>{
+    res.send("welcome")
+})
 
-
+app.use("/role",Rolerouter)
 app.listen(8080,async()=>{
 try{
     await connection
