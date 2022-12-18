@@ -4,11 +4,11 @@ let validator = (req, res, next) => {
     let { username, password } = req.body
 
     let length = username.length
-// logic to find uppercase and number ans lowercase characters
+    // logic to find uppercase and number ans lowercase characters
     let flag = []
     for (let i = 0; i < password.length; i++) {
         let key = password.charCodeAt(i)
-        
+
         if (key >= 48 && key <= 57) {
             flag[0] = key
         }
@@ -18,9 +18,9 @@ let validator = (req, res, next) => {
         else if (key >= 97 && key <= 122) {
             flag[2] = key
         }
-       
+
     }
-   
+
 
     if (length < 3 || length > 10) {
         return res.status(400).send({

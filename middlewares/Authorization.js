@@ -15,9 +15,9 @@ let Authorization = async (req, res, next) => {
             let newids = users_required_id.map((el) => {
                 return el._id
             })
-            req.body = { ...req.body, userid: newids ,role:"admin"}
+            req.body = { ...req.body, userid: newids, role: "admin" }
             next()
-            console.log(newids)
+           
         }
         else if (name === "user") {
             req.body = { ...req.body, role: name }

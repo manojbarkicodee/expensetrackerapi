@@ -1,13 +1,15 @@
 let { Router } = require("express")
 let { expensemodel } = require("../models/expensemodel")
 let { Authorization } = require("../middlewares/Authorization")
+const { Expense_validator } = require("../middlewares/Expense_creation_validator")
+
 let expenserouter = Router()
 
 
 let expensefunc = (data) => {
     let arr = { "1": 0, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0, "7": 0 }
     for (let i = 0; i < data.length; i++) {
-        console.log(data[i].amount, data[i].day, i)
+
         switch (data[i].day) {
             case "Sunday":
                 arr["1"] = arr["1"] + data[i].amount
@@ -35,7 +37,9 @@ let expensefunc = (data) => {
     }
     return arr
 }
-expenserouter.post("/", async (req, res) => {
+
+
+expenserouter.post("/", Expense_validator, async (req, res) => {
     let { title, date, amount, userid } = req.body
 
     // date to day conversion logic
@@ -51,7 +55,7 @@ expenserouter.post("/", async (req, res) => {
         }
     }
 
-    
+
     const d = new Date(newdate);
     let day = days[d.getDay()];
 
